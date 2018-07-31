@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="万匠管理系统">
+    <title>万匠管理系统</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="css/layouts/side-menu-old-ie.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="css/layouts/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="css/layouts/bootstrap-theme.css" type="text/css">
+    <link rel="stylesheet" href="css/layouts/main.css" type="text/css">
+    <link rel="stylesheet" href="css/layouts/editing-equipment.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+        <!--<![endif]-->
+
+</head>
+<body>
+   <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">万匠管理系统</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"> 
+                    <li><a href="#registration" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">公告设置<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="pub">推送信息设置</a></li>
+                            <li><a href="/actives">活动设置</a></li> 
+                            <li><a href="/contact">联系方式设置</a></li> 
+                        </ul>
+                    </li>
+                    <li><a href="/equipment">设备管理</a></li>
+                    <li><a href="/agent">邀请奖励设置</a></li>
+                    <li><a href="/userinfo?startPage=1&endPage=5&curPage=1">玩家信息</a></li>
+                    <li class="dropdown">
+                        <a href="/registration" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">充值管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/tradeInfo?startPage=1&endPage=5&curPage=1">充值情况</a></li>
+                            <li><a href="/shopInfos">商品设置</a></li> 
+                        </ul>
+                    </li>
+                    <li class="active">
+                        <a href="/agent" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">发货管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+							{{$Type1 := 1}}
+							{{$Type2 := 2}}
+							{{$Type3 := 3}}
+							{{$curType := .Infos.Type}}
+                            <li {{if eq $Type1 $curType}}class="active" {{end}}><a href="/reward?startPage=1&endPage=5&curPage=1">中奖列表</a></li>
+                            <li {{if eq $Type2 $curType}}class="active" {{end}}><a href="/askSend?startPage=1&endPage=5&curPage=1">可发货列表</a></li>
+                            <li {{if eq $Type3 $curType}}class="active" {{end}}><a href="/sended?startPage=1&endPage=5&curPage=1">已发货列表</a></li>
+                        </ul>
+                    </li>
+                    <li style="color: #9d9d9d; padding: 15px"> 账号：<font id="admin_id"> </font> {{.User.Nick}}</li>
+                    <li><a href="signOut">注销</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div <div class="table-responsive container" style="position: relative; top: 50px;">
+        <table class="table table-hover table-sm mt-3">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">编号</th>
+                    <th scope="col">中奖时间</th>
+                    <th scope="col">用户昵称</th>
+                    <th scope="col">物品</th>
+					{{if ne $curType $Type1}}					
+                    <th scope="col">姓名</th>
+                    <th scope="col">手机号</th>
+                    <th scope="col">收货地址</th>
+					{{end}}
+					{{if eq $curType $Type2}}
+                    <th scope="col">发货</th>
+					{{end}}
+                </tr>
+            </thead>
+            <tbody>
+				{{$curPage:= .Infos.CurPage}}
+				{{$firstPage:= .Infos.First}}
+				{{$lastPage:= .Infos.Last}}
+				
+				{{range $idx, $record := .Infos.RecordList.Records}}
+                <tr>
+                    <th scope="row">
+                        {{AddOne $idx}}
+                    </th>
+                    <td>
+                        {{.Records.Date}}
+                    </td>
+                    <td>
+                        {{.Records.UserNick}}
+                    </td>
+                    <td>
+                        {{.Records.DeviceID}}
+                    </td>
+					{{if ne $curType $Type1}}
+                    <td>
+                        {{.Address.Name}}
+                    </td>
+                    <td>
+                          {{.Address.Tel}}
+                    </td>
+                    <td>
+                        {{.Address.Addr}}
+                    </td>
+					{{end}}
+					{{if eq $curType $Type2}}
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'sendPrize?askID={{$idx}}&startPage={{$firstPage}}&endPage={{$lastPage}}&curPage={{$curPage}}&uID={{.Records.UserID}}'">发货</button>
+                    </td>
+					{{end}}
+                </tr>
+				{{end}}
+            </tbody>
+        </table>
+        <div class="row container">
+            <div class="col-12">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <!-- 分页导航项 -->
+						{{if .Infos.Left}}
+						 <!-- 激活样式 -->
+                        <li class="page-item active">
+                            <a class="page-link" href="{{if eq $curType $Type1}}reward{{else if eq $curType $Type2}}askSend{{else}}sended{{end}}?startPage=1&endPage={{.Infos.Last}}&curPage=1">首页</a>
+                        </li>
+						{{else}}
+						 <!-- 禁用样式 -->
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">首页</a>
+                        </li>						
+						{{end}}						
+						{{range genList .Infos.First .Infos.Last}}
+					    <li class="page-item {{if eq . $curPage}}active{{end}}">
+                            <a class="page-link" href="{{if eq . $curPage}}#{{else}}{{if eq $curType $Type1}}reward{{else if eq $curType $Type2}}askSend{{else}}sended{{end}}?startPage={{$firstPage}}&endPage={{$lastPage}}&curPage={{.}}{{end}}">{{.}}</a>
+                        </li>
+						{{end}}                       
+
+						{{if .Infos.Right}}
+						 <!-- 激活样式 -->
+                        <li class="page-item active">
+                            <a class="page-link" href="{{if eq $curType $Type1}}reward{{else if eq $curType $Type2}}askSend{{else}}sended{{end}}?startPage={{$firstPage}}&endPage={{$lastPage}}&curPage={{.Infos.RecordList.TotalPage}}">末页</a>
+                        </li>
+						{{else}}
+						 <!-- 禁用样式 -->
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">末页</a>
+                        </li>						
+						{{end}}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+          
+</body>
+</html>

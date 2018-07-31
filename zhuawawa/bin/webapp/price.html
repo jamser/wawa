@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="万匠管理系统">
+		<title>万匠管理系统</title>
+		<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+		
+				<!--[if lte IE 8]>
+						<link rel="stylesheet" href="css/layouts/side-menu-old-ie.css">
+				<![endif]-->
+				<!--[if gt IE 8]><!-->
+		<link rel="stylesheet" href="css/layouts/bootstrap.css" type="text/css">
+		<link rel="stylesheet" href="css/layouts/bootstrap-theme.css" type="text/css">
+		<link rel="stylesheet" href="css/layouts/main.css" type="text/css">
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script src="js/main.js"></script>
+						<!--<![endif]-->
+
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">万匠管理系统</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav"> 
+					<li><a href="#registration" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">公告设置<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="/pub">推送信息设置</a></li>
+							<li><a href="/actives">活动设置</a></li> 
+							<li><a href="/contact">联系方式设置</a></li> 
+						</ul>
+					</li>
+					<li><a href="/equipment">设备管理</a></li>
+					<li><a href="/agent">邀请奖励设置</a></li>
+					<li><a href="/userinfo?startPage=1&endPage=5&curPage=1">玩家信息</a></li>
+			
+						<li class="active"><a href="/registration" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">充值管理<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="/tradeInfo?startPage=1&endPage=5&curPage=1">充值情况</a></li>
+							<li class="active"><a href="#">商品设置</a></li> 
+						</ul>
+						</li>
+	
+						<li><a href="/agent" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">发货管理<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							 <li ><a href="/reward?startPage=1&endPage=5&curPage=1">中奖列表</a></li>
+                            <li ><a href="/askSend?startPage=1&endPage=5&curPage=1">可发货列表</a></li>
+                            <li ><a href="/sended?startPage=1&endPage=5&curPage=1">已发货列表</a></li>
+						</ul>
+						</li>
+					<li style="color: #9d9d9d; padding: 15px"> 账号：<font id="admin_id"> </font> {{.User.Nick}}</li>
+					<li><a href="signOut">注销</a></li>
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</nav>
+	
+	<!-- 公告设置 -->
+	<div class="container" style="position: relative; top: 60px;">
+	{{$weekCard :=1}}
+	{{$monthCar5d:=2}}
+		{{range $idx, $shop := .Infos.ShopInfos.AllItems}}
+		<div class="panel panel-primary" style="width: 33.33333333%; min-width: 370px;padding: 5px;float: left; margin-right: 20px;">
+			<table class="table" style="border:none;">
+				<tr>
+					<td rowspan="4" style="width: 133px"><img src="{{$shop.ImageURL}}" style="width: 132px; height: 132px" name="picture"></td>
+					<td style="width: 90px;border:none;">商品ID：</td>
+					<td style="border:none;">
+						<span name="id">{{$shop.ID}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 90px;border:none;">商品名称：</td>
+					<td style="border:none;">
+						<span name="name">{{$shop.Title}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 90px;border:none;">商品类型：</td>
+					<td style="border:none;">
+						<span name="type">{{if eq $shop.Type $weekCard}}周卡 {{else if eq $shop.Type $monthCar5d}}月卡 {{else}} 普通充值 {{end}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 90px;border:none;">充值金额：</td>
+					<td style="border:none;">
+						<span name = "amount">{{$shop.Cost}}</span>
+					</td>
+				</tr>
+				<tr>		 		
+					<td style="width: 90px;border:none;">获得金额： <span name="obtained">{{$shop.Gold}}</span></td>
+
+					<td style="width: 90px;border:none;">每日获得： </td>
+					<td style="border:none;"> 
+						<span name ="date_obtained">{{$shop.ExtraGot}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td style="border:none;" valign="top" colspan="3">
+						商品介绍： 
+					</td>
+				</tr>
+				<tr>
+					<td style="border:none;" valign="top" colspan="3">
+						<textarea readonly="value" style="border: none; resize:none; width: 98%" name="introduce">{{$shop.ShopDes}}</textarea>
+					</td>
+				</tr>
+			</table>
+			<button class="btn btn-primary edit">点击编辑</button>
+		</div>
+		{{end}}
+	</div>
+
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="editModalLabel">编辑</h5>
+					<button type="button" class="close" data-dismiss="modal">
+						<span>×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!-- 游戏大厅表单 -->
+					<form enctype="multipart/form-data" action="/configShop" method="POST">
+						<table class="table" style="border:none;">
+							<tr>
+								<td style="width: 90px;border:none;">商品ID：</td>
+								<td style="border:none;">
+									<input type="text" style="width: 100px" name="id"> 
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 90px;border:none;">商品名称：</td>
+								<td style="border:none;">
+									<input type="text" style="width: 100px" name="name"> 
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 90px;border:none;">商品类型：</td>
+								<td style="border:none;">
+									<select name="type">
+										<option value ="普通充值">普通充值</option>
+										<option value ="月卡">月卡</option>
+										<option value="周卡">周卡</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 90px;border:none;">充值金额：</td>
+								<td style="border:none;">
+									<input type="text" style="width: 100px" name="amount"> 
+								</td>
+							</tr>
+							<tr>		 		
+								<td style="width: 90px;border:none;">获得金额：</td>
+								<td style="border:none;">
+									<input type="text" style="width: 100px" name="obtained"> 
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 90px;border:none;">每日获得： </td>
+								<td style="border:none;"> 
+									<input type="text" style="width: 100px" name="date_obtained"> 
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 90px;border:none;">商品介绍： </td>
+								<td style="border:none;">
+									<textarea name="introduce"></textarea>
+								</td>
+							</tr>
+							<tr><td style="width: 90px;border:none;">更改图片： </td>
+								<td style="border:none;">
+									<input type="file" name="update" id="update"></input>
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 90px;border:none;">图片预览： </td>
+								<td style="border:none;"><img src="#" id="picture" name="picture" style="width: 174px; height: 174px"></td>
+							</tr>
+						</table>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary submit">提交</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>       

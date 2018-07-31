@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="万匠管理系统">
+    <title>万匠管理系统</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+    
+    
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="css/layouts/side-menu-old-ie.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+            <link rel="stylesheet" href="css/layouts/side-menu.css">
+        <!--<![endif]-->
+
+</head>
+<body>
+
+ <div class="header">
+            <h1>万匠管理系统</h1>
+            <h2>登陆页面</h2>
+			<img class="pure-img" id="Logo" src="images/logo.png" style="margin: 0 auto;">
+        </div>
+		
+	<form class="pure-form pure-form-stacked" style="margin:0 auto; width:500px; " action="/login" method="POST">
+    <fieldset>
+        <legend>请输入账号和密码</legend>
+
+        <div class="pure-g" style="align=center">
+            <div class="pure-u-1 pure-u-md-1-3">
+                <label for="account">账号</label>
+                <input name="account" id="account" class="pure-u-23-24" type="text" required>
+            </div>
+
+            <div class="pure-u-1 pure-u-md-1-3">
+                <label for="pwd">密码</label>
+                <input id="pwd" name="pwd" class="pure-u-23-24" type="text" required>
+            </div>          
+        </div>
+
+        <button type="submit" class="pure-button pure-button-primary">登陆</button>
+    </fieldset>
+</form>
+
+
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+	"state":0,
+	"group":1,
+	"sub":0,
+	"id":"wawa1",
+	"rtmp1":"rtmp://47.98.225.153:1935/live/movie1",
+	"rtmp2":"rtmp://47.98.225.153:1935/live/movie2",
+	"des":"娃娃机1号",
+	"thub":"http://www.wingjoy.cn/images/cooker-img.png",
+	"cost":19,
+	"desImgUrl":"http://www.wingjoy.cn/images/cooker-img.png",
+	"play":0,
+	"success":0,
+	"left":10,
+	"force":10,
+	"exchange":150
+}

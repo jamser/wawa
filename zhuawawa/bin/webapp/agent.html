@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="万匠管理系统">
+    <title>万匠管理系统</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="css/layouts/side-menu-old-ie.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="css/layouts/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="css/layouts/bootstrap-theme.css" type="text/css">
+    <link rel="stylesheet" href="css/layouts/main.css" type="text/css">
+    <link rel="stylesheet" href="css/layouts/editing-equipment.css" type="text/css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+        <!--<![endif]-->
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">万匠管理系统</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"> 
+                    <li><a href="/pub" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">公告设置<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">推送信息设置</a></li>
+                            <li><a href="/actives">活动设置</a></li> 
+                            <li><a href="/contact">联系方式设置</a></li> 
+                        </ul>
+                    </li>
+                    <li><a href="/equipment">设备管理</a></li>
+                    <li class="active"><a href="/agent">邀请奖励设置</a></li>
+                    <li><a href="/userinfo?startPage=1&endPage=5&curPage=1">玩家信息</a></li>
+                   
+                     <li>   <a href="/registration" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">充值管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/tradeInfo?startPage=1&endPage=5&curPage=1">充值情况</a></li>
+                            <li><a href="/shopInfos">商店设置</a></li> 
+                        </ul>
+              
+                    </li>
+					<li>
+                        <a href="/agent" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">发货管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li ><a href="/reward?startPage=1&endPage=5&curPage=1">中奖列表</a></li>
+                            <li ><a href="/askSend?startPage=1&endPage=5&curPage=1">可发货列表</a></li>
+                            <li ><a href="/sended?startPage=1&endPage=5&curPage=1">已发货列表</a></li>
+                        </ul>
+					</li>
+                    <li style="color: #9d9d9d; padding: 15px"> 账号：<font id="admin_id"> </font> {{.User.Nick}}</li>
+                    <li><a href="signOut">注销</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+   
+    <div class="container" style="position: relative; top: 50px;">
+        <table class="table" style="min-width: 200px; max-width: 500px;">
+            <colgroup width="40%"></colgroup>
+            <colgroup width="20%"></colgroup>
+            <colgroup width="20%"></colgroup>
+            <colgroup width="20%"></colgroup>
+
+            <thead>
+                <tr>
+                  <th>邀请设置</th> 
+                  <th>现设</th>
+                  <th>更改</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="vertical-align: middle;">邀请人单次获得娃娃币数：</td>
+                    <td style="vertical-align: middle;"> <input type="text" style="width: 70px;" readonly="value" value = "{{.Infos.InviteConfig.binderGain}}">  </td>
+					<form action="/upAgent" method="post">
+                    <td style="vertical-align: middle;"><input type="text" name= "binderGain" style="width: 70px;"></td>
+                    <td><button type= "submit" class="btn btn-primary">确认修改</button></td>
+					</form>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">邀请人最大奖励人数：</td>
+                    <td style="vertical-align: middle;"><input type="text" style="width: 70px;"  readonly="value" value = "{{.Infos.InviteConfig.goldGainMaxUser}}" ></td>
+					<form action="/upAgent" method="post">
+					<td style="vertical-align: middle;"><input type="text" name= "goldGainMaxUser" style="width: 70px;"></td>
+                    <td><button class="btn btn-primary" type= "submit">确认修改</button></td>
+					</form>
+					
+                </tr>
+                <tr><td style="vertical-align: middle;">被邀请人获得娃娃币数：</td>
+                    <td style="vertical-align: middle;"><input type="text" style="width: 70px;" readonly="value" value = "{{.Infos.InviteConfig.userGain}}" ></td>
+					<form action="/upAgent" method="post">
+                    <td style="vertical-align: middle;"><input type="text" name= "userGain" style="width: 70px;"></td>
+                    <td><button class="btn btn-primary" type= "submit">确认修改</button></td>
+					</form>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table" style="min-width: 200px; max-width: 500px;">
+            <colgroup width="40%"></colgroup>
+            <colgroup width="20%"></colgroup>
+            <colgroup width="20%"></colgroup>
+            <colgroup width="20%"></colgroup>
+            <thead>
+                <tr>
+                  <th>提现设置</th> 
+                  <th>现设</th>
+                  <th>更改</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="vertical-align: middle;">提现比例：</td>
+                    <td style="vertical-align: middle;"><input type="text" style="width: 70px;" readonly="value" value = "{{.Infos.InviteConfig.moneyRate}}" ></td>
+					<form action="/upAgent" method="post">
+					<td style="vertical-align: middle;"><input type="text" name= "moneyRate" style="width: 70px;"></td>
+                    <td><button class="btn btn-primary" type= "submit">确认修改</button></td>
+					</form>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">单人最大提成数：</td>
+                    <td style="vertical-align: middle;"><input type="text" style="width: 70px;" readonly="value" value = "{{.Infos.InviteConfig.oneMaxMoney}}" ></td>
+                    <form action="/upAgent" method="POST">
+					<td style="vertical-align: middle;"><input type="text" name= "oneMaxMoney" style="width: 70px;"></td>
+                    <td><button class="btn btn-primary" type= "submit">确认修改</button></td>
+					</form>
+                </tr>
+                <tr><td style="vertical-align: middle;">最大提成总数：</td>
+                    <td style="vertical-align: middle;"><input type="text" style="width: 70px;" readonly="value" value = "{{.Infos.InviteConfig.totalMoney}}" ></td>
+                    <form action="/upAgent" method="POST">
+					<td style="vertical-align: middle;"><input type="text" name= "totalMoney" style="width: 70px;"></td>
+                    <td><button class="btn btn-primary" type= "submit">确认修改</button></td>
+					</form>
+                </tr>
+            </tbody>
+        </table>
+    </div>             
+</body>
+</html>

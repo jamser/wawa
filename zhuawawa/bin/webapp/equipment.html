@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="万匠管理系统">
+    <title>万匠管理系统</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="css/layouts/side-menu-old-ie.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="css/layouts/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="css/layouts/bootstrap-theme.css" type="text/css">
+    <link rel="stylesheet" href="css/layouts/main.css" type="text/css">
+    <link rel="stylesheet" href="css/layouts/editing-equipment.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
+
+        <!--<![endif]-->
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">万匠管理系统</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"> 
+                    <li ><a href="#registration" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">公告设置<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/pub">推送信息设置</a></li>
+                            <li><a href="/actives">活动设置</a></li> 
+                            <li><a href="/contact">联系方式设置</a></li> 
+                        </ul>
+                    </li>
+                    <li class="active"><a href="/equipment">设备管理</a></li>
+                    <li><a href="/agent">邀请奖励设置</a></li>
+                    <li><a href="/userinfo?startPage=1&endPage=5&curPage=1">玩家信息</a></li>
+                    <li>
+                        <a href="/registration" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">充值管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/tradeInfo?startPage=1&endPage=5&curPage=1">充值情况</a></li>
+                            <li><a href="shopInfos">商品设置</a></li> 
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/agent" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">发货管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                             <li ><a href="/reward?startPage=1&endPage=5&curPage=1">中奖列表</a></li>
+                            <li ><a href="/askSend?startPage=1&endPage=5&curPage=1">可发货列表</a></li>
+                            <li ><a href="/sended?startPage=1&endPage=5&curPage=1">已发货列表</a></li>
+                        </ul>
+                    </li>
+                    <li style="color: #9d9d9d; padding: 15px"> 账号：<font id="admin_id"> </font> {{.User.Nick}}</li>
+                    <li><a href="signOut">注销</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+    
+    <!-- 公告设置 -->
+    <div class="container" style="position: relative; top: 60px;">
+		{{range $idx, $device := .Infos.DeviceInfos.AllDevices}}
+        <div class="panel panel-primary" style="width: 33.33333333%; min-width: 370px;padding: 5px">
+         <table class="table" style="border:none;">
+            <tr>
+                <td rowspan="4" style="width: 133px"><img src="{{$device.Thumbnail}}" name= "picture" style="width: 132px; height: 132px"></td>
+                <td style="width: 90px;border:none;">设备名称：</td>
+                <td style="border:none;">
+                    <span name="name">{{$device.Destription}}</span>
+                </td>
+            </tr>
+			<tr><td style="border: none; text-align: center; display: none" name= "id"> {{$device.DeviceID}} </td></tr>
+            <tr>
+                <td style="width: 90px;border:none;">价格：</td>
+                <td style="border:none;">
+                    <span name="price">{{$device.Cost}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 90px;border:none;">类型：</td>
+                <td style="border:none;">
+                    <span name="type">{{$device.Group}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 90px;border:none;">游戏次数：</td>
+                <td style="border:none;">
+                    <span name = "played">{{$device.Play}}</span>
+                </td>
+            </tr>
+            <tr>                
+                <td style="width: 90px;border:none;">成功次数： <span name="success">{{$device.Success}}</span></td>
+                    
+                <td style="width: 90px;border:none;">剩余数量： </td>
+                <td style="border:none;"> 
+                    <span name ="remainder">{{$device.LeftCount}}</span>
+                </td>
+            </tr>
+             <tr>   
+                <td style="width: 90px;border:none;" colspan="2">娃娃机控制基数： 
+                    <span name ="power">{{$device.Force}}</span>
+                </td>
+            </tr>
+			<tr>
+				<td style="width: 90px;border:none;" colspan="2">兑换娃娃币数量： 
+                    <span name ="exchange">{{$device.Exchange}}</span>
+                </td>
+            <tr>
+                <td style="border:none;" valign="top" colspan="3">
+                商品介绍： 
+                </td>
+            </tr>
+            <tr>
+                <td style="border:none;" valign="top" colspan="3">
+                    <img style="width: 350px;height: 100px;" name="describe" src="{{$device.DesImg}}">
+                </td>
+            </tr>
+         </table>
+        <button class="btn btn-primary equitment_edit">点击编辑</button>
+		
+        </div>
+		{{end}}
+        
+        <div class="modal fade" id="editModal_equitment" tabindex="-1" role="dialog" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">编辑</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 游戏大厅表单 -->
+                        <form enctype="multipart/form-data" action="/configEquip" method="POST">
+                            <table class="table" style="border:none;">
+                                <tr>
+                                    <td style="width: 90px;border:none;">设备名称：</td>
+                                    <td style="border:none;">
+                                        <input type="text" style="width: 100px" name="name"> 
+                                    </td>
+                                </tr>
+								<tr><td style="border: none; text-align: center;"><input type="hidden" name= "id" formnovalidate="formnovalidate"> </td></tr>
+                                <tr>
+                                    <td style="width: 90px;border:none;">价格：</td>
+                                    <td style="border:none;">
+                                        <input type="text" style="width: 100px" name="price"> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 90px;border:none;">类型：</td>
+                                    <td style="border:none;">
+                                        <input type="text" style="width: 100px" name="type">
+                                    </td>
+                                </tr>                               
+                                <tr>                
+                                    <td style="width: 90px;border:none;">剩余数量：</td>
+                                    <td style="border:none;">
+                                        <input type="text" style="width: 100px" name="remainder"> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 90px;border:none;">娃娃机控制基数： </td>
+                                    <td style="border:none;"> 
+                                        <input type="text" style="width: 100px" name="power"> 
+                                    </td>
+                                </tr>
+								<tr>
+                                    <td style="width: 90px;border:none;">兑换娃娃币数量： </td>
+                                    <td style="border:none;"> 
+                                        <input type="text" style="width: 100px" name="exchange"> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 90px;border:none;">商品介绍： </td>
+                                    <td style="border:none;">
+                                        <input type="file" name="updescribe" id="update_describe"></input>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 90px;border:none;">图片预览： </td>
+                                    <td style="border:none;"><img src="#" id="picture_describe" name="describe" style="width: 350px;height: 100px;"></td>
+                                </tr>
+                                <tr><td style="width: 90px;border:none;">缩略图 </td>
+                                    <td style="border:none;">
+                                        <input type="file" name="updateTub" id="update"></input>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 90px;border:none;">图片预览： </td>
+                                    <td style="border:none;"><img src="#" id="picture" name="picture" style="width: 174px; height: 174px"></td>
+                                </tr>
+                            </table>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary submit">提交</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
